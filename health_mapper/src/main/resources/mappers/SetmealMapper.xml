@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.SetmealMapper">
+
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+         insert into t_setmeal values(null,#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+    <update id="setSetmealAndCheckGroup">
+         insert into t_setmeal_checkgroup values (#{id},#{checkGroupId})
+    </update>
+    <select id="findByCondition" resultType="com.itheima.pojo.Setmeal">
+        select * from t_setmeal
+        <if test="queryString!=null and queryString.trim()!=''">
+            where code = #{queryString} or name like '%' #{queryString} '%' or helpCode = #{queryString}
+        </if>
+    </select>
+    <select id="findSetmealAll" resultType="com.itheima.pojo.Setmeal">
+         select * from t_setmeal
+    </select>
+    <!--配置自定义结果集-->
+    <resultMap id="setmealAndCheckGroupAndCheckItemResultMap" type="Setmeal" autoMapping="true">
+        <id column="id" property="id"></id>
+        <!--配置Setmeal和CheckGroup的映射关系-->
+        <collection property="checkGroups" javaType="List" ofType="CheckGroup" autoMapping="true">
+            <id column="cgid" property="id"></id>
+            <result column="cgname" property="name"></result>
+            <result column="cgremark" property="remark"></result>
+            <!--配置CheckGroup和CheckItem的映射关系-->
+            <collection property="checkItems" javaType="List" ofType="CheckItem" autoMapping="true">
+                <id column="ckid" property="id"></id>
+                <result column="ckname" property="name"></result>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <!--查询Setmeal、CheckGroup和CheckItem三个数据-->
+    <select id="findById" resultMap="setmealAndCheckGroupAndCheckItemResultMap">
+    SELECT
+        s.id,s.name,s.sex,s.age,s.remark,s.img,cg.id cgid,cg.name cgname,cg.remark cgremark,ck.id ckid,ck.name ckname
+    FROM
+        t_setmeal s
+    INNER JOIN t_setmeal_checkgroup sc ON s.id = sc.setmeal_id
+    inner join t_checkgroup cg on cg.id = sc.checkgroup_id
+    INNER JOIN t_checkgroup_checkitem cc on cc.checkgroup_id = cg.id
+    INNER JOIN t_checkitem ck on ck.id = cc.checkitem_id
+    WHERE
+        s.id = #{id}
+    </select>
+    <select id="getSetmealReport" resultType="java.util.Map">
+    SELECT
+        s.name as name,
+        count(o.setmeal_id) as value
+    FROM
+        t_order o
+    INNER JOIN t_setmeal s ON o.setmeal_id = s.id
+    GROUP BY s.id
+    </select>
+</mapper>
