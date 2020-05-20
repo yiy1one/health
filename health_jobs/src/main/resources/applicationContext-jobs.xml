@@ -41,7 +41,7 @@
         <property name="jobDetail" ref="jobDetail1"/>
         <!-- 指定触发的时间，基于Cron表达式 -->
         <property name="cronExpression">
-            <value>0 0 2 * * ?</value>
+            <value>0 0 1 * * ? *</value>
         </property>
     </bean>
 
