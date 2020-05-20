@@ -24,4 +24,6 @@ public interface OrderSettingMappper {
     OrderSetting findByOrderDate(@Param("orderDate") Date date);
 
     void updateReservationsByOrderDate(@Param("orderDate") Date date);
+
+    void clearOrderSettingByMonth(@Param("dateBegin") String dateBegin, @Param("dateEnd") String dateEnd);
 }

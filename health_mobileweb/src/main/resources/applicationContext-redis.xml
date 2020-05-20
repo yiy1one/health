@@ -14,24 +14,24 @@
           http://www.springframework.org/schema/context
           http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:redis.properties" />
-
     <!--Jedis连接池的相关配置-->
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxTotal">
-            <value>${redis.pool.maxTotal}</value>
-        </property>
-        <property name="maxIdle">
-            <value>${redis.pool.maxIdle}</value>
-        </property>
+        <!--最大jedis连接数-->
+        <property name="maxTotal" value="10"/>
+        <!--最多有50个空闲的jedis实例-->
+        <property name="maxIdle" value="5"/>
+        <!--对获取的jedis实例进行有效性检查,检查是否可用-->
         <property name="testOnBorrow" value="true"/>
+        <!--对返回给连接池中的jedis实例进行有效性检查,检查是否可用-->
         <property name="testOnReturn" value="true"/>
+
     </bean>
 
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
         <constructor-arg name="poolConfig" ref="jedisPoolConfig" />
-        <constructor-arg name="host" value="${redis.host}" />
-        <constructor-arg name="port" value="${redis.port}" type="int" />
-        <constructor-arg name="timeout" value="${redis.timeout}" type="int" />
+        <constructor-arg name="host" value="118.89.125.3" />
+        <constructor-arg name="port" value="58942"/>
+        <constructor-arg name="timeout" value="30000"/>
+        <constructor-arg name="password" value="pengchengYanwenqi1997!!@"/>
     </bean>
 </beans>

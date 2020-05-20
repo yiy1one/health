@@ -17,10 +17,16 @@
     <select id="findCountByDate" resultType="java.lang.Integer">
         select count(*) from t_ordersetting where orderDate = #{orderDate}
     </select>
+
     <select id="findOrderSettingByMonth" resultType="com.itheima.pojo.OrderSetting">
          select * from t_ordersetting where orderDate between #{dateBegin} and #{dateEnd}
     </select>
+
     <select id="findByOrderDate" resultType="com.itheima.pojo.OrderSetting">
         select * from t_ordersetting where orderDate = #{orderDate}
     </select>
+
+    <delete id="clearOrderSettingByMonth">
+        delete from t_ordersetting where orderDate between #{dateBegin} and #{dateEnd}
+    </delete>
 </mapper>

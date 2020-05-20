@@ -36,7 +36,7 @@
     </bean>
     <dubbo:application name="health-web"></dubbo:application>
 
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry>
+    <dubbo:registry address="zookeeper://118.89.125.3:2181"></dubbo:registry>
 
     <dubbo:annotation package="com.itheima"></dubbo:annotation>
     <!--
