@@ -62,6 +62,7 @@
             methods:{
                 //发送验证码
                 sendValidateCode(){
+
                     var telephone = this.loginInfo.telephone;
                     if (!checkTelephone(telephone)) {
                         this.$message.error('请输入正确的手机号');
@@ -79,6 +80,7 @@
                         }
                     })
                 },
+
                 //登录
                 login(){
                     var telephone = this.loginInfo.telephone;

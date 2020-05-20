@@ -37,7 +37,6 @@
                         <el-dropdown class="avatar-container right-menu-item" trigger="click">
                             <div class="avatar-wrapper">
                                 <img src="../img/user2-160x160.jpg" class="user-avatar">
-                                zhangsan<!--展示用户名-->
                                 {{username}}
                             </div>
                             <el-dropdown-menu slot="dropdown">
@@ -187,6 +186,19 @@
                             "path": "/5-3",
                             "title": "运营数据统计",
                             "linkUrl":"report_business.html",
+                            "children":[]
+                        }
+                    ]
+                },
+                {
+                    "path": "6",     //菜单项所对应的路由路径
+                    "title": "用户与权限",     //菜单项名称
+                    "icon":"fa-heartbeat",
+                    "children":[//是否有子菜单，若没有，则为[]
+                        {
+                            "path": "/6-1",
+                            "title": "权限管理",
+                            "linkUrl":"permission.html",
                             "children":[]
                         }
                     ]
