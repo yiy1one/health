@@ -1,21 +1,27 @@
 package com.itheima.jobs;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.constant.RedisConstant;
+import com.itheima.service.OderSettingService;
+import com.itheima.utils.DateUtils;
 import com.itheima.utils.QiniuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPool;
 
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author ShiXiaoyu
  * @date 2020-05-11 13:37
  */
 @Component
-public class ClearImgJob {
+public class ClearJob {
     @Autowired
     private JedisPool jedisPool;
+
+    @Reference
+    private OderSettingService oderSettingService;
 
     public void clearImg(){
         //对redis中的存储图片的两个set集合进行比较，获取垃圾图片名称
@@ -27,5 +33,12 @@ public class ClearImgJob {
             //删除redis中多余的图片
             jedisPool.getResource().srem(RedisConstant.SETMEAL_PIC_RESOURCES,s);
         }
+    }
+
+    public void clearOrderS(){
+        Map<String, String> dates = DateUtils.getLastHalfYearMonth();
+        String beginDay=dates.get("beginDay");
+        String endDay=dates.get("endDay");
+        oderSettingService.clearOrderSettingByMonth(beginDay,endDay);
     }
 }

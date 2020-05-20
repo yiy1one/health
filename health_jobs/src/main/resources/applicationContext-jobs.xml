@@ -2,25 +2,50 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <context:component-scan base-package="com.itheima.jobs"/>
-    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <!-- detail1 清理图片 -->
+    <bean id="jobDetail1" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
         <!-- 注入目标对象 -->
-        <property name="targetObject" ref="clearImgJob"/>
+        <property name="targetObject" ref="clearJob"/>
         <!-- 注入目标方法 -->
         <property name="targetMethod" value="clearImg"/>
     </bean>
-    <!-- 注册一个触发器，指定任务触发的时间 -->
-    <bean id="myTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+
+    <!-- detail2 清理套餐预约 -->
+    <bean id="jobDetail2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 注入目标对象 -->
+        <property name="targetObject" ref="clearJob"/>
+        <!-- 注入目标方法 -->
+        <property name="targetMethod" value="clearOrderS"/>
+    </bean>
+
+    <!-- 图片清理触发器 -->
+    <bean id="clearImgTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <!-- 注入JobDetail -->
-        <property name="jobDetail" ref="jobDetail"/>
+        <property name="jobDetail" ref="jobDetail1"/>
         <!-- 指定触发的时间，基于Cron表达式 -->
         <property name="cronExpression">
             <value>0 0 2 * * ?</value>
+        </property>
+    </bean>
+
+    <!-- 预约表清理触发器 -->
+    <bean id="clearOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 注入JobDetail -->
+        <property name="jobDetail" ref="jobDetail2"/>
+        <!-- 指定触发的时间，基于Cron表达式 -->
+        <property name="cronExpression">
+            <!-- 每个月最后一天凌晨2点执行 -->
+            <value>0 0 2 L * ? </value>
+            <!--<value>0 33 10 * * ?  </value>-->
         </property>
     </bean>
     <!-- 注册一个统一的调度工厂，通过这个调度工厂调度任务 -->
@@ -28,9 +53,18 @@
         <!-- 注入多个触发器 -->
         <property name="triggers">
             <list>
-                <ref bean="myTrigger"/>
+                <ref bean="clearImgTrigger"/>
+                <ref bean="clearOrderTrigger"/>
             </list>
         </property>
     </bean>
+
+    <dubbo:application name="health-web"/>
+
+    <dubbo:registry address="zookeeper://118.89.125.3:2181"/>
+
+    <dubbo:annotation package="com.itheima.jobs"/>
+
+    <dubbo:consumer timeout="600000" check="false"/>
 
 </beans>
