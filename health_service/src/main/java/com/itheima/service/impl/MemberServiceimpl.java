@@ -6,6 +6,7 @@ import com.itheima.pojo.Member;
 import com.itheima.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -57,6 +58,44 @@ public class MemberServiceimpl implements MemberService{
             calendar.add(Calendar.MONTH,+1);
         }
         //创建一个map，将月份的集合以及每个月会员数量的集合存入其中
+        Map<String, List> map = new HashMap<>();
+        map.put("months",months);
+        map.put("memberCounts",memberCounts);
+
+        return map;
+    }
+
+    @Override
+    public Map queryByMonth(String start, String end) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dates = dateFormat.parse(start);
+        Date datee = dateFormat.parse(end);
+        Calendar c_begin = new GregorianCalendar();
+        Calendar c_end = new GregorianCalendar();
+        c_begin.setTime(dates);
+        c_end.setTime(datee);
+        //定义一个list集合，存放过去12个月每个月的月份
+        ArrayList<String> months = new ArrayList<>();
+        //定义一个list集合，存放过去12个月每个月的会员数量
+        ArrayList<Integer> memberCounts = new ArrayList<>();
+        while (c_begin.before(c_end)) {
+            Date time = c_begin.getTime();
+            String month = new SimpleDateFormat("yyyy-MM").format(time);
+            //定义每个月开始日期
+            String monthBegin = month+"-1";
+            //定义每个月结束时间
+            String monthEnd = month+"-31";
+            //统计每个月人数
+            int count = memberMapper.findMemberCountByMonth(monthBegin,monthEnd);
+            //添加每一个月
+            months.add(month);
+
+            //添加每一个月的会员数量
+            memberCounts.add(count);
+            c_begin.add(Calendar.MONTH, +1);
+
+        }
+//创建一个map，将月份的集合以及每个月会员数量的集合存入其中
         Map<String, List> map = new HashMap<>();
         map.put("months",months);
         map.put("memberCounts",memberCounts);

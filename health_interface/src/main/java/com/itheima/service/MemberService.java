@@ -2,6 +2,7 @@ package com.itheima.service;
 
 import com.itheima.pojo.Member;
 
+import java.text.ParseException;
 import java.util.Map;
 
 /**
@@ -14,4 +15,7 @@ public interface MemberService {
     void add(Member member);
 
     Map getMemberReport();
+
+
+    Map queryByMonth(String start, String end) throws ParseException;
 }

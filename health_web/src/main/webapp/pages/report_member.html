@@ -15,6 +15,18 @@
 </head>
 <body class="hold-transition">
 <div id="app">
+
+       起始日期
+
+        <input id="startDate" type="date"  >
+
+
+       终止日期
+
+        <input id="endDate" type="date"  >
+
+    <input type="button" onclick="query()" value="查询">
+
     <div class="content-header">
         <h1>统计分析<small>会员数量</small></h1>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
@@ -38,7 +50,7 @@
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('chart1'));
-    axios.get("/report/getMemberReport.do").then((res)=>{
+    axios.get("/report/getMemberReport.do").then((res) => {
         myChart.setOption(
             {
                 title: {
@@ -46,13 +58,13 @@
                 },
                 tooltip: {},
                 legend: {
-                    data:['会员数量']
+                    data: ['会员数量']
                 },
                 xAxis: {
                     data: res.data.data.months
                 },
                 yAxis: {
-                    type:'value'
+                    type: 'value'
                 },
                 series: [{
                     name: '会员数量',
@@ -62,6 +74,35 @@
             });
     })
 </script>
-
+<script>
+    function query() {
+        var start = document.getElementById("startDate").value;
+        var end = document.getElementById("endDate").value;
+        var params = "start="+start+"&&end="+end;
+        axios.get("/report/queryByMonth.do?"+params).then((res) => {
+            myChart.setOption(
+                {
+                    title: {
+                        text: '会员数量'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: ['会员数量']
+                    },
+                    xAxis: {
+                        data: res.data.data.months
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        name: '会员数量',
+                        type: 'line',
+                        data: res.data.data.memberCounts
+                    }]
+                });
+        })
+    }
+</script>
 
 </html>

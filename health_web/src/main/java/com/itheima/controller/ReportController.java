@@ -9,7 +9,9 @@ import com.itheima.service.SetmealService;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
@@ -43,6 +45,19 @@ public class ReportController {
             e.printStackTrace();
             return new Result(false,MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
         }
+    }
+    @RequestMapping("queryByMonth")
+    public Result queryByMonth(@RequestParam("start") String start,@RequestParam("end") String end) {
+        try {
+           /* String start = (String) map.get("start");
+            String end = (String) map.get("end");*/
+            Map map1 = memberService.queryByMonth(start,end);
+            return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS,map1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,MessageConstant.GET_MEMBER_NUMBER_REPORT_FAIL);
+        }
+
     }
     @RequestMapping("getSetmealReport")
     public Result getSetmealReport(){
