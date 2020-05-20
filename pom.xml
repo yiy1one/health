@@ -17,7 +17,6 @@
         <module>health_web</module>
         <module>health_jobs</module>
         <module>health_mobileweb</module>
-        <module>springsecuritydemo</module>
     </modules>
     <packaging>pom</packaging>
     <!-- 集中定义依赖版本号 -->
