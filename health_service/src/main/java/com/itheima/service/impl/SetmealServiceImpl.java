@@ -63,7 +63,7 @@ public class SetmealServiceImpl implements SetmealService {
     }
 
     @Override
-    public Setmeal findById(Integer id) {
+    public Setmeal findById(String id) {
         return setmealMapper.findById(id);
     }
 

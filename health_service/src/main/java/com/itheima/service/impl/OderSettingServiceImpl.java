@@ -1,10 +1,11 @@
 package com.itheima.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.itheima.mapper.OrderSettingMappper;
 import com.itheima.pojo.OrderSetting;
 import com.itheima.service.OderSettingService;
+import com.itheima.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +16,10 @@ import java.util.Map;
  * @author ShiXiaoyu
  * @date 2020-05-12 19:22
  */
-@Service(interfaceClass = OderSettingService.class)
+//@Service(interfaceClass = OderSettingService.class)
+@Service
 public class OderSettingServiceImpl implements OderSettingService {
+
     @Autowired
     private OrderSettingMappper orderSettingMappper;
 
@@ -65,5 +68,10 @@ public class OderSettingServiceImpl implements OderSettingService {
             //如果之前没有设置过预约数据，执行新增
             orderSettingMappper.add(orderSetting);
         }
+    }
+
+    @Override
+    public void clearOrderSettingByMonth(String dateBegin, String dateEnd) {
+        orderSettingMappper.clearOrderSettingByMonth(dateBegin,dateEnd);
     }
 }

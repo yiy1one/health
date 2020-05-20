@@ -285,6 +285,24 @@ public class DateUtils {
         return calendar.getTime();
     }
 
+    public static Map<String,String> getLastHalfYearMonth(){
+        Map<String,String> endBegin = new HashMap();
+        Calendar instance = Calendar.getInstance();
+        instance.add(Calendar.MONTH,-5);
+        instance.set(Calendar.DAY_OF_MONTH,1);
+        try {
+            instance.add(Calendar.DAY_OF_MONTH,-1);
+            String endDay = parseDate2String(instance.getTime());
+            instance.set(Calendar.DAY_OF_MONTH,1);
+            String beginDay = parseDate2String(instance.getTime());
+            endBegin.put("beginDay",beginDay);
+            endBegin.put("endDay",endDay);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return endBegin;
+    }
+
     public static void main(String[] args) {
         try {
             System.out.println("本周一" + parseDate2String(getThisWeekMonday()));

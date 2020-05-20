@@ -8,19 +8,23 @@
     <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
          insert into t_setmeal values(null,#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
     </insert>
+
     <update id="setSetmealAndCheckGroup">
          insert into t_setmeal_checkgroup values (#{id},#{checkGroupId})
     </update>
+
     <select id="findByCondition" resultType="com.itheima.pojo.Setmeal">
         select * from t_setmeal
         <if test="queryString!=null and queryString.trim()!=''">
             where code = #{queryString} or name like '%' #{queryString} '%' or helpCode = #{queryString}
         </if>
     </select>
+
     <select id="findSetmealAll" resultType="com.itheima.pojo.Setmeal">
          select * from t_setmeal
     </select>
     <!--配置自定义结果集-->
+
     <resultMap id="setmealAndCheckGroupAndCheckItemResultMap" type="Setmeal" autoMapping="true">
         <id column="id" property="id"></id>
         <!--配置Setmeal和CheckGroup的映射关系-->
@@ -49,6 +53,7 @@
     WHERE
         s.id = #{id}
     </select>
+
     <select id="getSetmealReport" resultType="java.util.Map">
     SELECT
         s.name as name,
@@ -58,4 +63,5 @@
     INNER JOIN t_setmeal s ON o.setmeal_id = s.id
     GROUP BY s.id
     </select>
+
 </mapper>

@@ -7,9 +7,9 @@
 
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!--最大jedis连接数-->
-        <property name="maxTotal" value="200"></property>
+        <property name="maxTotal" value="10"/>
         <!--最多有50个空闲的jedis实例-->
-        <property name="maxIdle" value="50"></property>
+        <property name="maxIdle" value="5"/>
         <!--对获取的jedis实例进行有效性检查,检查是否可用-->
         <property name="testOnBorrow" value="true"/>
         <!--对返回给连接池中的jedis实例进行有效性检查,检查是否可用-->
@@ -19,9 +19,10 @@
 
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
         <constructor-arg name="poolConfig" ref="jedisPoolConfig" />
-        <constructor-arg name="host" value="127.0.0.1" />
-        <constructor-arg name="port" value="6379"/>
+        <constructor-arg name="host" value="118.89.125.3" />
+        <constructor-arg name="port" value="58942"/>
         <constructor-arg name="timeout" value="30000"/>
+        <constructor-arg name="password" value="pengchengYanwenqi1997!!@"/>
     </bean>
 
 

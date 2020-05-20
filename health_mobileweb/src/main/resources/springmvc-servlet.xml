@@ -34,7 +34,7 @@
     </mvc:annotation-driven>
 
     <dubbo:application name="health_mobileweb"/>
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:registry address="zookeeper://118.89.125.3:2181"/>
     <dubbo:annotation package="com.itheima.controller"/>
     <!--
         配置消费方超时时间
@@ -44,6 +44,8 @@
             check=true 启动时检查服务提供方，如果服务提供方没有启动则报错
     -->
     <dubbo:consumer timeout="600000" check="false"/>
+
+    <mvc:default-servlet-handler/>
 
     <import resource="classpath:applicationContext-redis.xml"/>
 

@@ -19,7 +19,7 @@ public interface SetmealMapper {
 
     List<Setmeal> findSetmealAll();
 
-    Setmeal findById(@Param("id") Integer id);
+    Setmeal findById(@Param("id") String id);
 
     List<Map> getSetmealReport();
 }

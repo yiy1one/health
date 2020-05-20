@@ -15,4 +15,6 @@ public interface OderSettingService {
     List<Map> findOrderSettingByMonth(String date);
 
     void updateNumberByOrderDate(OrderSetting orderSetting);
+
+    void clearOrderSettingByMonth(String dateBegin, String dateEnd);
 }

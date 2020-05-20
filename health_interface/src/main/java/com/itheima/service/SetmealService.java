@@ -17,7 +17,7 @@ public interface SetmealService {
 
     List<Setmeal> findSetmealAll();
 
-    Setmeal findById(Integer id);
+    Setmeal findById(String id);
 
     Map getSetmealReport();
 
