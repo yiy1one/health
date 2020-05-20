@@ -41,4 +41,27 @@ public class ClearJob {
         String endDay=dates.get("endDay");
         oderSettingService.clearOrderSettingByMonth(beginDay,endDay);
     }
+
+    public void clearSetmealDetailRedis() throws Exception {
+        //获取redis中各详情点击数的map集合
+        Map<String, String> map = jedisPool.getResource().hgetAll("setmealDetail-count");
+        List<String> strArr = new ArrayList<>();
+
+        //遍历集合，点击量大于1000的保留json，但点击数清理
+        //小于1000的添加到删除队列
+        map.forEach((k,v)->{
+            if (Integer.parseInt(v)>1000){
+                jedisPool.getResource().hset("setmealDetail-count",k,"0");
+            }else{
+                strArr.add(k);
+            }
+        });
+
+        //list转换String数组
+        String[] needDelete = strArr.toArray(new String[strArr.size()]);
+
+        //redis执行批量删除
+        jedisPool.getResource().hdel("setmealDetail",needDelete);
+        jedisPool.getResource().hdel("setmealDetail-count",needDelete);
+    }
 }

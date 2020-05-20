@@ -27,6 +27,14 @@
         <property name="targetMethod" value="clearOrderS"/>
     </bean>
 
+    <!-- detail3 redis详情缓存清理 -->
+    <bean id="jobDetail3" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 注入目标对象 -->
+        <property name="targetObject" ref="clearJob"/>
+        <!-- 注入目标方法 -->
+        <property name="targetMethod" value="clearSetmealDetailRedis"/>
+    </bean>
+
     <!-- 图片清理触发器 -->
     <bean id="clearImgTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <!-- 注入JobDetail -->
@@ -37,7 +45,7 @@
         </property>
     </bean>
 
-    <!-- 预约表清理触发器 -->
+    <!-- 预约套餐清理触发器 -->
     <bean id="clearOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <!-- 注入JobDetail -->
         <property name="jobDetail" ref="jobDetail2"/>
@@ -45,9 +53,23 @@
         <property name="cronExpression">
             <!-- 每个月最后一天凌晨2点执行 -->
             <value>0 0 2 L * ? </value>
-            <!--<value>0 33 10 * * ?  </value>-->
+            <!--<value>0 33 10 * * ?</value>-->
         </property>
     </bean>
+
+    <!-- redis缓存清理触发器 -->
+    <bean id="clearRedisTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!-- 注入JobDetail -->
+        <property name="jobDetail" ref="jobDetail3"/>
+        <!-- 指定触发的时间，基于Cron表达式 -->
+        <property name="cronExpression">
+            <!-- 每个月最后一天凌晨2点执行 -->
+            <!--<value>0 0 2 L * ? </value>-->
+            <value>0 0 3 * * ? *</value>
+        </property>
+    </bean>
+
+
     <!-- 注册一个统一的调度工厂，通过这个调度工厂调度任务 -->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <!-- 注入多个触发器 -->
@@ -55,6 +77,7 @@
             <list>
                 <ref bean="clearImgTrigger"/>
                 <ref bean="clearOrderTrigger"/>
+                <ref bean="clearRedisTrigger"/>
             </list>
         </property>
     </bean>

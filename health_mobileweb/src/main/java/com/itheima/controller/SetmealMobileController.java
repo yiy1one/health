@@ -51,13 +51,14 @@ public class SetmealMobileController {
     @RequestMapping("findById")
     public Result findById(@RequestParam("id") String id){
         try {
-            //Setmeal setmeal = setmealService.findById(id);
             String setmealDetail = jedisPool.getResource().hget("setmealDetail", id);
             Setmeal setmeal = null;
             if (setmealDetail==null){
                 setmeal = setmealService.findById(id);
                 jedisPool.getResource().hset("setmealDetail",id,JSON.toJSONString(setmeal));
+                jedisPool.getResource().hset("setmealDetail-count",id,"1");
             }else {
+                jedisPool.getResource().hincrBy("setmealDetail-count",id,1);
                 setmeal  = new Gson().fromJson(setmealDetail, Setmeal.class);
             }
             return new Result(true,MessageConstant.QUERY_SETMEAL_SUCCESS,setmeal);
