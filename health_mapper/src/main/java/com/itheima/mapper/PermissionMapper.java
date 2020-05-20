@@ -9,4 +9,14 @@ public interface PermissionMapper {
     List<Permission> findByCondition(@Param("queryString") String queryString);
 
     void add(Permission permission);
+
+    Permission findById(Integer id);
+
+    void edit(Permission permission);
+
+    void deleteById(Integer id);
+
+    Integer countUse(Integer id);
+
+    List<Permission> findAll();
 }
