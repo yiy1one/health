@@ -192,7 +192,7 @@
             axios.get("/setmeal/findById.do?id=" + id).then((res) => {
                 if (res.data.flag) {
                     this.setmeal = res.data.data
-                    this.imgUrl = "http://ptqw7v2uv.bkt.clouddn.com/" + res.data.data.img
+                    this.imgUrl = "http://qa2les74y.bkt.clouddn.com/" + res.data.data.img
                 } else {
                     this.$message.error(res.data.message);
                 }
