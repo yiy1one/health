@@ -1,11 +1,11 @@
 package com.itheima.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.itheima.mapper.OrderSettingMappper;
 import com.itheima.pojo.OrderSetting;
 import com.itheima.service.OderSettingService;
-import com.itheima.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +16,8 @@ import java.util.Map;
  * @author ShiXiaoyu
  * @date 2020-05-12 19:22
  */
-//@Service(interfaceClass = OderSettingService.class)
-@Service
+@Service(interfaceClass = OderSettingService.class)
+
 public class OderSettingServiceImpl implements OderSettingService {
 
     @Autowired
