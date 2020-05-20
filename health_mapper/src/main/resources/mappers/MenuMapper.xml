@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.mapper.MenuMapper">
+
+    <resultMap id="MenuAndSubMenu" type="com.itheima.pojo.Menu" autoMapping="true">
+        <id column="id" property="id" />
+        <collection property="children" ofType="com.itheima.pojo.Menu">
+            <id column="subid" property="id" />
+            <result column="subname" property="name" />
+            <result column="sublinkUrl" property="linkUrl" />
+            <result column="subpath" property="path" />
+            <result column="subpriority" property="priority" />
+            <result column="subdescription" property="description" />
+            <result column="subparentMenuId" property="parentMenuId" />
+        </collection>
+    </resultMap>
+
+
+    <select id="findAll" resultMap="MenuAndSubMenu">
+        SELECT
+            t1.id,
+            t1.NAME,
+            t1.path,
+            t1.priority,
+            t1.icon,
+            t1.description,
+            t2.id AS subid,
+            t2.NAME AS subname,
+            t2.linkUrl AS sublinkUrl,
+            t2.path AS subpath,
+            t2.priority AS subpriority,
+            t2.description AS subdescription,
+            t2.parentMenuId AS subparentMenuId
+        FROM
+            t_menu t1
+                left JOIN t_menu t2 ON t2.parentMenuId = t1.id
+        where t1.level = 1
+    </select>
+    <insert id="add">
+        insert into t_menu
+        <choose>
+            <when test="parentMenuId == null">
+                (id, name, path, priority, icon,level) values (null, #{name}, #{path}, #{priority}, #{icon}, 1)
+            </when>
+            <otherwise>
+                (id, name, path, priority, linkUrl, parentMenuId, level) values (null, #{name}, #{path}, #{priority},#{linkUrl}, #{parentMenuId}, 2)
+            </otherwise>
+        </choose>
+
+
+    </insert>
+    <select id="findById" resultType="com.itheima.pojo.Menu">
+        select * from t_menu where id = #{id}
+    </select>
+    <select id="countUse" resultType="integer">
+        select count(*) from t_role_menu where menu_id = #{id};
+    </select>
+    <delete id="deleteById">
+        delete from t_menu where id = #{id}
+    </delete>
+
+
+
+
+<!--    <select id="findMenuByUserId" resultMap="MenAndUserSubMenu">-->
+<!--        SELECT-->
+<!--            t1.id,-->
+<!--            t1.NAME,-->
+<!--            t1.path,-->
+<!--            t1.priority,-->
+<!--            t1.icon,-->
+<!--            t1.description,-->
+<!--            t2.id AS subid,-->
+<!--            t2.NAME AS subname,-->
+<!--            t2.linkUrl AS sublinkUrl,-->
+<!--            t2.path AS subpath,-->
+<!--            t2.priority AS subpriority,-->
+<!--            t2.description AS subdescription,-->
+<!--            t2.parentMenuId AS subparentMenuId-->
+<!--        FROM-->
+<!--            t_role_menu rm-->
+<!--        inner join t_menu t1 on rm.menu_id = t1.id-->
+<!--        inner join t_menu t2 on t2.parentMenuId = t1.id-->
+<!--        where rm.role_id = #{userId}-->
+<!--    </select>-->
+
+
+    <select id="getMenuByRoleIds" resultMap="MenuAndSubMenu">
+
+    </select>
+    <select id="getMenuByMenuIds" resultType="com.itheima.pojo.Menu">
+        select * from t_menu where id in (
+            <foreach collection="menuIds" separator="," item="menuId">
+                #{menuId}
+            </foreach>
+            )
+    </select>
+</mapper>
