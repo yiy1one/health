@@ -25,6 +25,7 @@ import java.util.Map;
 public class OrderMobileController {
     @Autowired
     private JedisPool jedisPool;
+
     @Reference
     private OrderService orderService;
     @RequestMapping("findById")
@@ -37,7 +38,6 @@ public class OrderMobileController {
             e.printStackTrace();
             return new Result(false,MessageConstant.QUERY_ORDER_FAIL);
         }
-
     }
 
     @RequestMapping("add")

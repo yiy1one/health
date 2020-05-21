@@ -63,7 +63,7 @@
         <property name="jobDetail" ref="jobDetail3"/>
         <!-- 指定触发的时间，基于Cron表达式 -->
         <property name="cronExpression">
-            <!-- 每个月最后一天凌晨2点执行 -->
+            <!-- 每天凌晨3点执行一次 -->
             <!--<value>0 0 2 L * ? </value>-->
             <value>0 0 3 * * ? *</value>
         </property>
