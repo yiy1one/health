@@ -9,17 +9,19 @@
         <meta name="keywords" content="传智健康">
         <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
         <!-- 引入样式 -->
-        <link rel="stylesheet" href="../plugins/elementui/index.css">
+<!--        <link rel="stylesheet" href="../plugins/elementui/index.css">-->
+        <link href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/theme-chalk/index.css" rel="stylesheet">
+
         <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="../css/style.css">
         <style>
-            .el-transfer {
-                width: 500px;
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-                margin: 0 auto;
-            }
+            /*.el-transfer {*/
+            /*    width: 500px;*/
+            /*    display: flex;*/
+            /*    justify-content: space-around;*/
+            /*    align-items: center;*/
+            /*    margin: 0 auto;*/
+            /*}*/
         </style>
     </head>
     <body class="hold-transition">
@@ -123,7 +125,9 @@
     </body>
     <!-- 引入组件库 -->
     <script src="../js/vue.js"></script>
-    <script src="../plugins/elementui/index.js"></script>
+<!--    <script src="../plugins/elementui/index.js"></script>-->
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.13.2/index.js"></script>
     <script type="text/javascript" src="../js/jquery.min.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
     <script>
@@ -216,6 +220,7 @@
                 //添加
                 handleAdd () {
                     //检查新增表单中校验是否通过
+
                     this.$refs["dataAddForm"].validate((volid)=>{
                         if(volid && this.roleIds.length > 0){
                             //如果校验通过,发送新增检查项的请求
@@ -266,6 +271,7 @@
                 resetForm() {
                     this.formData = {};
                     this.roleIds = []
+
                 },
                 // 弹出添加窗口
                 handleCreate() {
@@ -274,13 +280,16 @@
                     //显示窗口
                     this.dialogFormVisible = true;
                     this.formTitle = '新增用户'
+                    this.$refs["dataAddForm"].clearValidate()
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+
                     //重置表单
                     this.resetForm();
                     //显示窗口
                     this.dialogFormVisible = true;
+
                     this.formTitle = '编辑用户'
                     //通过i的查询检查项信息回显
                     axios.post("/user/findById.do?userId="+row.id).then((res)=>{
@@ -288,6 +297,7 @@
                             //将查询出来的数据绑定到数据模型中
                             this.formData=res.data.data.userInfo;
                             this.roleIds = res.data.data.roleIds;
+                            this.$refs["dataAddForm"].clearValidate()
 
                         }else{
                             this.$message.error(res.data.message);

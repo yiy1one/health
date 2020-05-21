@@ -38,7 +38,6 @@ public class RoleController {
 
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADD')")
     @RequestMapping("add")
     public Result add(@RequestParam("menuIds") Integer[] menuIds, @RequestParam("permissionIds") Integer[] permissionIds, @RequestBody Role role) {
         try {
@@ -53,7 +52,6 @@ public class RoleController {
 
     }
 
-    @PreAuthorize("hasAuthority('ROLE_QUERY')")
     @RequestMapping("findById")
     public Result findById(@RequestParam("id") Integer id) {
         try {
@@ -66,7 +64,6 @@ public class RoleController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_EDIT')")
     @RequestMapping("edit")
     public Result edit(@RequestParam("menuIds") Integer[] menuIds, @RequestParam("permissionIds") Integer[] permissionIds, @RequestBody Role role) {
         try {
@@ -92,7 +89,6 @@ public class RoleController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_DELETE')")
     @RequestMapping("deleteById")
     public Result deleteById(@RequestParam("id") Integer id) {
         try {
