@@ -30,16 +30,22 @@ public class SetmealMobileController {
     @Autowired
     private JedisPool jedisPool;
 
+    //套餐列表查询
     @RequestMapping("findSetmealAll")
     public Result findSetmealAll(){
         try {
-            String setmealLisString = jedisPool.getResource().get("setmealList");
+            String setmealListString = jedisPool.getResource().get("setmealList");
             List<Setmeal> setmealList = null;
-            if (setmealLisString==null){
+
+            //如果redis查询结果为空，查询数据库，添加redis
+            if (setmealListString==null){
                 setmealList = setmealService.findSetmealAll();
-                jedisPool.getResource().set("setmealList", JSON.toJSONString(setmealList));
+                if (setmealList!=null) {
+                    jedisPool.getResource().setnx("setmealList", JSON.toJSONString(setmealList));
+                }
             }else{
-                setmealList = JSON.parseArray(setmealLisString,Setmeal.class);
+                //如果redis查询结果不为空，序列化查询对象
+                setmealList = JSON.parseArray(setmealListString,Setmeal.class);
             }
             return new Result(true, MessageConstant.QUERY_SETMEALLIST_SUCCESS,setmealList);
         } catch (Exception e) {
@@ -48,6 +54,7 @@ public class SetmealMobileController {
         }
     }
 
+    //查询套餐详情
     @RequestMapping("findById")
     public Result findById(@RequestParam("id") String id){
         try {
@@ -55,10 +62,14 @@ public class SetmealMobileController {
             Setmeal setmeal = null;
             if (setmealDetail==null){
                 setmeal = setmealService.findById(id);
-                jedisPool.getResource().hset("setmealDetail",id,JSON.toJSONString(setmeal));
-                jedisPool.getResource().hset("setmealDetail-count",id,"1");
+                if (setmeal!=null){
+                    jedisPool.getResource().hsetnx("setmealDetail",id,JSON.toJSONString(setmeal));
+                    jedisPool.getResource().hsetnx("setmealDetail-count",id,"1");
+                }
             }else {
+                //如果redis查询结果不为空，计数器自增
                 jedisPool.getResource().hincrBy("setmealDetail-count",id,1);
+                //复杂对象用Gson反序列化
                 setmeal  = new Gson().fromJson(setmealDetail, Setmeal.class);
             }
             return new Result(true,MessageConstant.QUERY_SETMEAL_SUCCESS,setmeal);
