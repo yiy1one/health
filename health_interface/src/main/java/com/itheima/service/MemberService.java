@@ -18,4 +18,6 @@ public interface MemberService {
 
 
     Map queryByMonth(String start, String end) throws ParseException;
+
+    Map getMember2Report();
 }

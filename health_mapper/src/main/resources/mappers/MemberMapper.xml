@@ -24,4 +24,12 @@
     <select id="findNewMemberCountAfterDate" resultType="java.lang.Integer">
        select count(id) from t_member where regTime >= #{date}
     </select>
+    <select id="getMember2Report" resultType="java.util.Map">
+        SELECT
+            m.sex as name,
+            count(m.id) as value
+        FROM
+            t_member m
+        GROUP BY m.sex
+    </select>
 </mapper>

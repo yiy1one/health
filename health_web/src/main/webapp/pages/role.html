@@ -59,6 +59,7 @@
                             :total="pagination.total">
                         </el-pagination>
                     </div>
+
                     <!-- 新增标签弹层 -->
                     <div class="add-form">
                         <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
@@ -171,18 +172,17 @@
             //钩子函数，VUE对象初始化完成后自动执行
             created() {
                 this.findPage();
+                // 加载权限列表
                 axios.get('/permission/findAll.do').then(res => {
-
-                        this.permissionList = res.data.data
+                    this.permissionList = res.data.data
                 })
+                // 加载菜单列表
                 axios.get('/menu/findAll.do').then(res => {
                     var menus = res.data.data
+                    // 2层循环菜单列表 加载子菜单到data中
                     for(var i = 0; i< menus.length;i++) {
-                        // menus[i].name = '+'+menus[i].name
-                        // this.menuList.push(menus[i])
                         if (menus[i].children.length > 0) {
                             menus[i].children.forEach(subMenu => {
-                                // subMenu.name = '-' + subMenu.name
                                 this.menuList.push(subMenu)
                             })
                         }
@@ -191,18 +191,7 @@
 
             },
             methods: {
-                change(key) {
-                    console.log(123)
-                    var selectMenu  = []
-                    this.menuData.forEach(menu => {
-                        for(var i = 0;i<key.length; i++) {
-                            if (menu.id === key[i]) {
-                                selectMenu.push(menu)
-                            }
-                        }
-                    })
-                    console.log(selectMenu)
-                },
+
                 //编辑
                 handleEdit() {
                     this.$refs["dataAddForm"].validate((volid)=>{
@@ -312,10 +301,7 @@
                     axios.post("/role/findById.do?id="+row.id).then((res)=>{
                         if (res.data.flag){
                             //将查询出来的数据绑定到数据模型中
-                            // this.formData.id = res.data.data.id
-                            // this.formData.name = res.data.data.name
-                            // this.formData.keyword = res.data.data.keyword
-                            // this.formData.description = res.data.data.description
+
                             this.formData = res.data.data.role
                             this.menuIds = res.data.data.menuIds
                             this.permissionIds = res.data.data.permissionIds

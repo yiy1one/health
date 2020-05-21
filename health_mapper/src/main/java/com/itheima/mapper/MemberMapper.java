@@ -3,6 +3,9 @@ package com.itheima.mapper;
 import com.itheima.pojo.Member;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author ShiXiaoyu
  * @date 2020-05-14 17:00
@@ -19,4 +22,6 @@ public interface MemberMapper {
     Integer findTotalMember();
 
     Integer findNewMemberCountAfterDate(@Param("date") String date);
+
+    List<Map> getMember2Report();
 }

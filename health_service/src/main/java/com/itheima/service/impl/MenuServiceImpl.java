@@ -62,31 +62,24 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> getMenuByMenuIds(Set<Integer> menuIds) {
         List<Menu> list = menuMapper.getMenuByMenuIds(menuIds);
         // 原本的list数据是一维的，现在封装为2维数据
+        // 创建主目录list
         ArrayList<Menu> mainMenus = new ArrayList<>();
+        // 创建主目录的id Set
         Set<Integer> mainMenuIds = new HashSet<>();
-//        for (Menu menu : list) {
-//            if (menu.getParentMenuId() == null) {
-//                mainMenus.add(menu);
-//            }
-//        }
-//        if (mainMenus.size() == 0) {
-//            for (Menu menu : list) {
-//
-//                Integer parentMenuId = menu.getParentMenuId();
-//                Menu mainMenuById = this.findById(parentMenuId);
-//
-//            }
-//        }
 
+
+        // 第一次循环子目录list， 把主目录的id放入set，去重
         for (Menu menu : list) {
             Integer parentMenuId = menu.getParentMenuId();
             mainMenuIds.add(parentMenuId);
         }
 
+        // 循环主目录id的set，添加主目录到目录list
         for (Integer mainMenuId : mainMenuIds) {
             mainMenus.add(this.findById(mainMenuId));
         }
 
+        // 双层循环，把子目录装入主目录的children列表
         for (Menu menu : list) {
             for (Menu mainMenu : mainMenus) {
                 if (menu.getParentMenuId().equals(mainMenu.getId())) {
@@ -94,7 +87,6 @@ public class MenuServiceImpl implements MenuService {
                 }
             }
         }
-
 
         return mainMenus;
     }

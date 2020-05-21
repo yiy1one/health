@@ -46,6 +46,8 @@ public class ClearJob {
         oderSettingService.clearOrderSettingByMonth(beginDay,endDay);
     }
 
+
+
     //redis套餐详情缓存清理
     public void clearSetmealDetailRedis() throws Exception {
         //获取redis中各详情点击数的map集合

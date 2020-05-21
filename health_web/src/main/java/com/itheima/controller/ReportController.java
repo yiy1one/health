@@ -153,4 +153,15 @@ public class ReportController {
         }
 
     }
+
+    @RequestMapping("getMember2Report")
+    public Result getMember2Report(){
+        try {
+            Map map = memberService.getMember2Report();
+            return new Result(true,MessageConstant.GET_SETMEAL_COUNT_REPORT_SUCCESS,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,MessageConstant.GET_SETMEAL_COUNT_REPORT_FAIL);
+        }
+    }
 }

@@ -68,6 +68,7 @@
                     </div>
                     <!-- 新增标签弹层 -->
                     <div class="add-form">
+<!--                        新增和编辑使用的同一个弹层，根据动态的title绑定button的事件-->
                         <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
                             <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
@@ -134,6 +135,7 @@
         var vue = new Vue({
             el: '#app',
             data(){
+                // 自定义校验规则，判断2次密码是否一致
                 var validatePass2 = (rule, value, callback)=>{
                     if (value === '') {
                         callback(new Error('请再次输入密码'));
@@ -143,6 +145,7 @@
                         callback();
                     }
                 }
+                // 自定义校验规则，判断用户名是否重复
                 var validateUsername = (rule, value, callback) => {
                     if (this.formTitle === '编辑用户') {
                         callback()
@@ -190,7 +193,9 @@
             },
             //钩子函数，VUE对象初始化完成后自动执行
             created() {
+                // 加载主页面数据
                 this.findPage();
+                // 加载弹层的角色数据
                 axios.get('/role/findAll.do').then(res => {
                     this.roleList = res.data.data
                 })

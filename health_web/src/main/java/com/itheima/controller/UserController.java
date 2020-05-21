@@ -78,6 +78,8 @@ public class UserController {
         }
     }
 
+
+    // 编辑回显数据
     @RequestMapping("findById")
     public Result findById(@RequestParam("userId") Integer userId) {
         try {
@@ -105,6 +107,7 @@ public class UserController {
     }
 
 
+    // 删除用户，如果是admin，无法删除
     @RequestMapping("deleteById")
     public Result deleteById(@RequestParam("id") Integer id) {
         try {
@@ -116,6 +119,8 @@ public class UserController {
         }
     }
 
+
+    // 检查用户名是否重复
     @RequestMapping("checkUsername")
     public Result checkUsername(@RequestParam("username") String username) {
 

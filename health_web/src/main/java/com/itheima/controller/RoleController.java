@@ -64,6 +64,8 @@ public class RoleController {
         }
     }
 
+
+    // 修改角色
     @RequestMapping("edit")
     public Result edit(@RequestParam("menuIds") Integer[] menuIds, @RequestParam("permissionIds") Integer[] permissionIds, @RequestBody Role role) {
         try {

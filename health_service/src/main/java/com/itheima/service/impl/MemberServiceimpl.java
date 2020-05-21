@@ -102,4 +102,20 @@ public class MemberServiceimpl implements MemberService{
 
         return map;
     }
+
+    @Override
+    public Map getMember2Report() {
+        List<Map> list = memberMapper.getMember2Report();
+        List<String> names = new ArrayList<>();
+        for (Map map : list) {
+            String name = (String) map.get("name");
+            names.add(name);
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("sex",names);
+        map.put("memberCounts",list);
+
+        return map;
+
+    }
 }

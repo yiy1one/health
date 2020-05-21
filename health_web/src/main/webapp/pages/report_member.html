@@ -16,6 +16,8 @@
 <body class="hold-transition">
 <div id="app">
 
+<!--    新加入的时间picker-->
+
        起始日期
 
         <input id="startDate" type="date"  >
@@ -76,10 +78,14 @@
 </script>
 <script>
     function query() {
+        // 获取开始时间和结束时间
         var start = document.getElementById("startDate").value;
         var end = document.getElementById("endDate").value;
+        // 拼接GET参数
         var params = "start="+start+"&&end="+end;
+        // 提交查询请求
         axios.get("/report/queryByMonth.do?"+params).then((res) => {
+            // 查询成功后修改折线图数据
             myChart.setOption(
                 {
                     title: {

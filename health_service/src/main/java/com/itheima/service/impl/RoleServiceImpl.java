@@ -53,10 +53,15 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void edit(Role role, Integer[] menu, Integer[] permission) {
+        // 先修改角色表
         roleMapper.update(role);
+        // 删除和menu相关数据
         roleMapper.deleteMenus(role.getId());
+        // 删除和权限相关数据
         roleMapper.deletePermission(role.getId());
+        // 添加和menu相关数据
         roleMapper.addRoleAndMenus(role.getId(), menu);
+        //  添加和权限相关数据
         roleMapper.addRoleAndPermission(role.getId(), permission);
     }
 

@@ -41,6 +41,7 @@ public class SetmealMobileController {
             if (setmealListString==null){
                 setmealList = setmealService.findSetmealAll();
                 if (setmealList!=null) {
+                    // 把数据转为json字符串后添加进数据库
                     jedisPool.getResource().setnx("setmealList", JSON.toJSONString(setmealList));
                 }
             }else{
@@ -63,7 +64,9 @@ public class SetmealMobileController {
             if (setmealDetail==null){
                 setmeal = setmealService.findById(id);
                 if (setmeal!=null){
+                    // 把查询到的套餐详情存入redis的setmealDetail
                     jedisPool.getResource().hsetnx("setmealDetail",id,JSON.toJSONString(setmeal));
+                    // 把查询到的套餐被查询计数置为 1
                     jedisPool.getResource().hsetnx("setmealDetail-count",id,"1");
                 }
             }else {
