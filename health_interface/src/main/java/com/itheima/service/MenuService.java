@@ -22,4 +22,6 @@ public interface MenuService {
     List<Menu> getMenuByMenuIds(Set<Integer> menuIds);
 
     void edit(Menu menu);
+
+    List<Menu> getMenu(Integer id);
 }

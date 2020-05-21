@@ -95,4 +95,9 @@ public class MenuServiceImpl implements MenuService {
     public void edit(Menu menu) {
         menuMapper.edit(menu);
     }
+
+    @Override
+    public List<Menu> getMenu(Integer userId) {
+        return menuMapper.getMenu(userId);
+    }
 }

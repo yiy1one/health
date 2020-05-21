@@ -89,12 +89,13 @@ public class MenuController {
         try {
             String username = principal.getName();
             User user = userService.findIdByName(username);
-            // 通过用户id获取角色ids
-            List<Integer> roleIds = roleService.getRoleIdsByUserId(user.getId());
-            // 通过角色ids获取菜单ids
-            Set<Integer> menuIds = roleService.getMenuIdsByRoleIds(roleIds);
-            // 通过菜单ids获取菜单list，是个二维的list
-            List<Menu> list = menuService.getMenuByMenuIds(menuIds);
+//            // 通过用户id获取角色ids
+//            List<Integer> roleIds = roleService.getRoleIdsByUserId(user.getId());
+//            // 通过角色ids获取菜单ids
+//            Set<Integer> menuIds = roleService.getMenuIdsByRoleIds(roleIds);
+//            // 通过菜单ids获取菜单list，是个二维的list
+//            List<Menu> list = menuService.getMenuByMenuIds(menuIds);
+            List<Menu> list = menuService.getMenu(user.getId());
             return new Result(true, MessageConstant.QUERY_MENU_SUCCESS, list);
         } catch (Exception e) {
             e.printStackTrace();
