@@ -175,7 +175,7 @@
                         <el-dialog title="编辑子菜单" :visible.sync="dialogFormVisible4EditSub">
 
 
-                            <el-form ref="dataAddForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+                            <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
                                 <el-row>
                                     <el-col :span="12">
                                         <el-form-item label="菜单名称" prop="name">
@@ -288,9 +288,9 @@
                 handleEdit() {
                     this.$refs["dataEditForm"].validate((volid)=>{
                         if (volid){
-                            axios.post("/checkitem/edit.do",this.formData).then((res)=>{
+                            axios.post("/menu/edit.do",this.formData).then((res)=>{
                                 //关闭编辑窗口
-                                this.dialogFormVisible4Edit=false;
+                                this.dialogFormVisible4EditSub=false;
                                 if (res.data.flag){
                                     this.findPage();
                                 }else{

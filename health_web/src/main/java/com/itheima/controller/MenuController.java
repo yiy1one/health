@@ -103,4 +103,15 @@ public class MenuController {
 
 
     }
+
+    @RequestMapping("edit")
+    public Result edit(@RequestBody Menu menu) {
+        try {
+            menuService.edit(menu);
+            return new Result(true, MessageConstant.EDIT_MENU_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, MessageConstant.EDIT_MENU_FAIL);
+        }
+    }
 }

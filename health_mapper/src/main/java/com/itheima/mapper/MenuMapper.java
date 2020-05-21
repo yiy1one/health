@@ -21,4 +21,6 @@ public interface MenuMapper {
     List<Menu> getMenuByRoleIds(List<Integer> roleIds);
 
     List<Menu> getMenuByMenuIds(@Param("menuIds") Set<Integer> menuIds);
+
+    void edit(Menu menu);
 }

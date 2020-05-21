@@ -20,4 +20,6 @@ public interface MenuService {
     List<Menu> getMenuByRoleIds(List<Integer> roleIds);
 
     List<Menu> getMenuByMenuIds(Set<Integer> menuIds);
+
+    void edit(Menu menu);
 }

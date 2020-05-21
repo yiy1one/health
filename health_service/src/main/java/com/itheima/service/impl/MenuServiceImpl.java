@@ -98,4 +98,9 @@ public class MenuServiceImpl implements MenuService {
 
         return mainMenus;
     }
+
+    @Override
+    public void edit(Menu menu) {
+        menuMapper.edit(menu);
+    }
 }
