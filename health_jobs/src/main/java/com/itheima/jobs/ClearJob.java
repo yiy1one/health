@@ -35,19 +35,24 @@ public class ClearJob {
         }
     }
 
+    //预约套餐表清理
     public void clearOrderS(){
+        //获取6个月前的月份开始日期和结束日期
         Map<String, String> dates = DateUtils.getLastHalfYearMonth();
         String beginDay=dates.get("beginDay");
         String endDay=dates.get("endDay");
+
+        //执行删表语句
         oderSettingService.clearOrderSettingByMonth(beginDay,endDay);
     }
 
+    //redis套餐详情缓存清理
     public void clearSetmealDetailRedis() throws Exception {
         //获取redis中各详情点击数的map集合
         Map<String, String> map = jedisPool.getResource().hgetAll("setmealDetail-count");
         List<String> strArr = new ArrayList<>();
 
-        //遍历集合，点击量大于1000的保留json，但点击数清理
+        //遍历集合，点击量大于1000的保留json，但点击数清零
         //小于1000的添加到删除队列
         map.forEach((k,v)->{
             if (Integer.parseInt(v)>1000){
